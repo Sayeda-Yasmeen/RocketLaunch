@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rocket Launch with Countdown</title>
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    #countdown {
+      font-size: 4em;
+      margin-top: 20px;
+    }
+
+    #rocket {
+      width: 150px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      visibility: hidden; /* Initially hidden */
+    }
+
+    @keyframes flyRocket {
+      0% {
+        bottom: 0;
+      }
+      100% {
+        bottom: 100vh; /* Move the rocket up off the screen */
+      }
+    }
+
+    .fly {
+      visibility: visible;
+      animation: flyRocket 3s ease-out forwards;
+    }
+
+    #launchBtn {
+      font-size: 1.5em;
+      padding: 10px 25px;
+      margin-top: 20px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #launchBtn:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="countdown">Ready?</div>
+  <button id="launchBtn">Launch</button>
+  
+  <!-- Update image path to relative -->
+  <img id="rocket" src="rocket.jpg" alt="Rocket">
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const rocket = document.getElementById('rocket');
+    const launchBtn = document.getElementById('launchBtn');
+
+    launchBtn.addEventListener("click", () => {
+      let timeLeft = 10;
+      countdownEl.textContent = timeLeft;
+      launchBtn.disabled = true;
+      rocket.style.visibility = 'visible';  // Make the rocket visible
+
+      const timer = setInterval(() => {
+        timeLeft--;
+
+        // Update countdown text
+        if (timeLeft >= 0) {
+          countdownEl.textContent = timeLeft;
+        }
+
+        // When countdown reaches zero
+        if (timeLeft === 0) {
+          clearInterval(timer);
+          countdownEl.textContent = "Liftoff!";
+          rocket.classList.add('fly'); // Start the animation
+        }
+      }, 1000); // 1 second interval
+    });
+  </script>
+
+</body>
+</html>
